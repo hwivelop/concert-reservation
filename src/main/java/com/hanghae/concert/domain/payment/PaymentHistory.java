@@ -27,5 +27,5 @@ public class PaymentHistory extends BaseCreateEntity {
     private PaymentType paymentType;
 
     @Column(name = "amount", nullable = false)
-    private Long amount;
+    private Integer amount;
 }

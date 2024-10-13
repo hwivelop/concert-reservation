@@ -19,9 +19,6 @@ public class Reservation extends BaseEntity {
     @Column(name = "member_id", nullable = false)
     private Long memberId;
 
-    @Column(name = "concert_schedule_id", nullable = false)
-    private Long concertScheduleId;
-
     @Column(name = "concert_seat_id", nullable = false)
     private Long concertSeatId;
 
@@ -29,6 +26,14 @@ public class Reservation extends BaseEntity {
     @Column(name = "status", nullable = false)
     private ReservationStatus reservationStatus;
 
-    @Column(name = "price", nullable = false)
-    private Long price;
+    @Column(name = "reservation_price", nullable = false)
+    private Integer reservationPrice;
+
+    public boolean isExpired() {
+        return reservationStatus == ReservationStatus.EXPIRED;
+    }
+
+    public void changeStatus(ReservationStatus reservationStatus) {
+        this.reservationStatus = reservationStatus;
+    }
 }

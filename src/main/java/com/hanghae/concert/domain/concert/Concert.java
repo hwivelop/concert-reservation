@@ -28,4 +28,8 @@ public class Concert extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private ConcertStatus concertStatus;
+
+    public void changeStatus(ConcertStatus concertStatus) {
+        this.concertStatus = concertStatus;
+    }
 }

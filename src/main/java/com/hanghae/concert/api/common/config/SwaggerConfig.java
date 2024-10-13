@@ -1,4 +1,4 @@
-package com.hanghae.concert.api.config;
+package com.hanghae.concert.api.common.config;
 
 import io.swagger.v3.oas.models.*;
 import io.swagger.v3.oas.models.info.*;

@@ -1,4 +1,4 @@
-package com.hanghae.concert_reservation;
+package com.hanghae.concert;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
