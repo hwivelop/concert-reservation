@@ -21,6 +21,9 @@ public class MemberQueue extends BaseEntity {
     @Column(name = "member_id", nullable = false)
     private Long memberId;
 
+    @Column(name = "concert_id", nullable = false)
+    private Long concertId;
+
     @Column(name = "token", length = 255, nullable = false)
     private String token;
 
