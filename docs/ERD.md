@@ -7,11 +7,11 @@ erDiagram
         LocalDateTime updated_at "수정 일시"
     }
 
-    USER_QUEUE {
+    MEMBER_QUEUE {
         bigint id PK
         bigint member_id FK
         varchar(255) token "대기열 토큰"
-        varchar(10) status "대기열 상태(WAITING, PROGRESS, EXPIRED)"
+        varchar(10) status "대기열 상태(WAIT, ACTIVE, EXPIRED)"
         LocalDateTime expired_at "대기열 만료 시간"
         LocalDateTime created_at "생성 일시"
         LocalDateTime updated_at "수정 일시"
@@ -40,7 +40,7 @@ erDiagram
         bigint id PK
         bigint concert_schedule_id FK
         int seat_number "좌석 번호"
-        boolean isAvailable "예매 가능 여부"
+%%        boolean isAvailable "예매 가능 여부" // 보류
         LocalDateTime created_at "생성 일시"
         LocalDateTime updated_at "수정 일시"
     }
@@ -48,9 +48,8 @@ erDiagram
     RESERVATION {
         bigint id PK
         bigint member_id FK
-        bigint concert_schedule_id FK
         bigint concert_seat_id FK
-        bigint price
+        bigint reservation_price "예약 확정 금액"
         varchar(15) status "예약 상태(TEMP_RESERVED, RESERVED, EXPIRED)"
         LocalDateTime created_at "생성 일시"
         LocalDateTime updated_at "수정 일시"
@@ -68,7 +67,7 @@ erDiagram
     CONCERT ||--o{ CONCERT_SCHEDULE: "has schedules"
     CONCERT_SCHEDULE ||--o{ CONCERT_SEAT: "has seats"
     MEMBER ||--o{ RESERVATION: "makes reservations"
-    MEMBER ||--o{ USER_QUEUE: "enters queue"
+    MEMBER ||--o{ MEMBER_QUEUE: "enters queue"
     CONCERT_SEAT ||--o{ RESERVATION: "has reservation"
     MEMBER ||--o{ PAYMENT_HISTORY: "tracks amount changes"
 

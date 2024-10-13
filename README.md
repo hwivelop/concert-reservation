@@ -1,7 +1,7 @@
 # [STEP 5]
 * [마일스톤](https://github.com/users/hwivelop/projects/3)
-* [Sequence Diagram](https://github.com/hwivelop/concert-reservation/blob/step5/docs/SEQUENCE.md)
-* [FlowChart](https://github.com/hwivelop/concert-reservation/blob/step5/docs/FLOWCHART.md)
+* [Sequence Diagram](https://github.com/hwivelop/concert-reservation/blob/develop/docs/SEQUENCE.md)
+* [FlowChart](https://github.com/hwivelop/concert-reservation/blob/develop/docs/FLOWCHART.md)
 
 <details>
   <summary>[비즈니스 로직 예상 및 분석]</summary>
@@ -45,9 +45,9 @@
 </details>
 
 # [STEP 6]
-* [ERD](https://github.com/hwivelop/concert-reservation/blob/step6/docs/ERD.md)
-* [DDL](https://github.com/hwivelop/concert-reservation/blob/step6/docs/DDL.sql)
-* [API 명세서](https://github.com/hwivelop/concert-reservation/blob/step6/docs/APISPEC.yml)
+* [ERD](https://github.com/hwivelop/concert-reservation/blob/develop/docs/ERD.md)
+* [DDL](https://github.com/hwivelop/concert-reservation/blob/develop/docs/DDL.sql)
+* [API 명세서](https://github.com/hwivelop/concert-reservation/blob/develop/docs/APISPEC.yml)
 
 <details>
   <summary>[패키지 구조 및 기술 스택 선정]</summary>
