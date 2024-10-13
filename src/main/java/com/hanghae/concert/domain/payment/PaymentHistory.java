@@ -22,6 +22,7 @@ public class PaymentHistory extends BaseCreateEntity {
     @Column(name = "reservation_id", nullable = false)
     private Long reservationId;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false)
     private PaymentType paymentType;
 

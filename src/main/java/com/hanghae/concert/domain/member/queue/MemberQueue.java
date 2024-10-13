@@ -24,9 +24,10 @@ public class MemberQueue extends BaseEntity {
     @Column(name = "token", length = 255, nullable = false)
     private String token;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status", length = 10, nullable = false)
     private TokenStatus tokenStatus;
 
-    @Column(name = "expired_at", nullable = false)
+    @Column(name = "expired_at")
     private LocalDateTime expiredAt;
 }

@@ -25,6 +25,7 @@ public class Reservation extends BaseEntity {
     @Column(name = "concert_seat_id", nullable = false)
     private Long concertSeatId;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private ReservationStatus reservationStatus;
 

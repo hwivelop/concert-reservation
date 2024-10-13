@@ -25,6 +25,7 @@ public class Concert extends BaseEntity {
     @Column(name = "seatPrice", nullable = false)
     private Integer seatPrice;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private ConcertStatus concertStatus;
 }
