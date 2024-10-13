@@ -26,4 +26,12 @@ public class ConcertSchedule extends BaseEntity {
 
     @Column(name = "start_at", nullable = false)
     private LocalDateTime startAt;
+
+    public void changeRemainingSeat(boolean isReserved) {
+        if (isReserved) {
+            this.remainingSeat -= 1;
+        } else {
+            this.remainingSeat += 1;
+        }
+    }
 }
