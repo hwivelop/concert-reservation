@@ -20,4 +20,9 @@ public class MemberQueryService {
 
         return MemberDto.of(member);
     }
+
+    public Boolean existsMemberById(Long memberId) {
+
+        return memberRepository.existsById(memberId);
+    }
 }

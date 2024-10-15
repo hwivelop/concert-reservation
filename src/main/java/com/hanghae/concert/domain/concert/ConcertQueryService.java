@@ -21,4 +21,10 @@ public class ConcertQueryService {
 
         return ConcertDto.of(concert);
     }
+
+
+    public Boolean existsById(Long concertId) {
+
+        return concertRepository.existsById(concertId);
+    }
 }

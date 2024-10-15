@@ -23,4 +23,9 @@ public class MemberQueueQueryService {
 
         return memberQueueRepository.findByMemberIdAndConcertIdAndTokenStatus(memberId, concertId, TokenStatus.ACTIVE);
     }
+
+    public boolean isAvailableToken(Long memberId, Long concertId) {
+
+        return memberQueueRepository.existsByMemberIdAndConcertIdAndTokenStatus(memberId, concertId, TokenStatus.ACTIVE);
+    }
 }

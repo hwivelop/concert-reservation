@@ -14,4 +14,6 @@ public interface MemberQueueRepository extends JpaRepository<MemberQueue, Long> 
     );
 
     Optional<MemberQueue> findByMemberIdAndConcertIdAndTokenStatus(Long memberId, Long concertId, TokenStatus tokenStatus);
+
+    boolean existsByMemberIdAndConcertIdAndTokenStatus(Long memberId, Long concertId, TokenStatus tokenStatus);
 }
