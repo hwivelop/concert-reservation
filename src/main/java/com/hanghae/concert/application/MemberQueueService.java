@@ -53,4 +53,16 @@ public class MemberQueueService {
                     );
                 });
     }
+
+    public Long getMyTurn(String token) {
+
+        TokenStatus tokenStatus = memberQueueQueryService.getTokenStatus(token)
+                .orElse(null);
+
+        if (tokenStatus != TokenStatus.WAIT) {
+            return null;
+        }
+
+        return memberQueueQueryService.getRankByToken(token);
+    }
 }

@@ -28,4 +28,14 @@ public class MemberQueueQueryService {
 
         return memberQueueRepository.existsByMemberIdAndConcertIdAndTokenStatus(memberId, concertId, TokenStatus.ACTIVE);
     }
+
+    public Optional<TokenStatus> getTokenStatus(String token) {
+
+        return memberQueueRepository.findTokenStatusByToken(token);
+    }
+
+    public Long getRankByToken(String token) {
+
+        return memberQueueRepository.findRankByToken(token);
+    }
 }
