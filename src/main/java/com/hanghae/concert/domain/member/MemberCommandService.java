@@ -14,16 +14,9 @@ public class MemberCommandService {
 
     private final MemberRepository memberRepository;
 
-    public MemberDto initMember() {
+    public Member initMember(Member member) {
 
-        Member member = memberRepository.save(
-                new Member(
-                        null,
-                        0
-                )
-        );
-
-        return MemberDto.of(member);
+       return memberRepository.save(member);
     }
 
     public void updateBalance(Long memberId, Integer balance, PaymentType paymentType) {

@@ -2,7 +2,6 @@ package com.hanghae.concert.domain.member.queue;
 
 import com.hanghae.concert.application.*;
 import com.hanghae.concert.domain.concert.*;
-import com.hanghae.concert.domain.concert.dto.*;
 import com.hanghae.concert.domain.member.*;
 import com.hanghae.concert.domain.member.dto.*;
 import com.hanghae.concert.domain.member.queue.dto.*;
@@ -34,7 +33,9 @@ class MemberQueueServiceIntegrationTest {
     @BeforeAll
     void setUp() {
 
-        MemberDto memberDto = memberCommandService.initMember();
+        MemberDto memberDto = MemberDto.of(memberCommandService.initMember(
+                new Member(1L, 0)
+        ));
         memberId = memberDto.id();
 
         Concert concert = concertCommandService.save(
