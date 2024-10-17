@@ -16,6 +16,7 @@ import org.springframework.stereotype.*;
 @Service
 public class PaymentService {
 
+    private final MemberCommandService memberCommandService;
     private final MemberQueryService memberQueryService;
     private final MemberQueueQueryService memberQueueQueryService;
     private final MemberQueueCommandService memberQueueCommandService;
@@ -40,8 +41,7 @@ public class PaymentService {
         // 잔액 차감
         Integer reservationPrice = reservation.getReservationPrice();
 
-        Member member = memberQueryService.getMemberById(memberId);
-        member.changeBalance(reservationPrice, PaymentType.USE);
+        memberCommandService.updateBalance(memberId, reservationPrice, PaymentType.USE);
 
         // 결제내역 저장
         paymentHistoryCommandService.savePaymentHistory(
