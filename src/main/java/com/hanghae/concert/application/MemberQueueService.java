@@ -30,7 +30,7 @@ public class MemberQueueService {
         }
 
         // 콘서트 검증
-        ConcertDto concertDto = concertQueryService.getConcertById(concertId);
+        ConcertDto concertDto = ConcertDto.of(concertQueryService.getConcertById(concertId));
 
         // 발급된 active 토큰이 있다면 그대로 반환
         return memberQueueQueryService.getMemberQueue(memberId, concertId)

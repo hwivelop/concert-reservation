@@ -13,18 +13,8 @@ public class ConcertCommandService {
     private final ConcertRepository concertRepository;
 
 
-    public ConcertDto saveConcert(SaveConcertDto dto) {
+    public Concert save(Concert concert) {
 
-        Concert concert = concertRepository.save(
-                new Concert(
-                        null,
-                        dto.title(),
-                        dto.capacity(),
-                        dto.seatPrice(),
-                        dto.concertStatus()
-                )
-        );
-
-        return ConcertDto.of(concert);
+        return concertRepository.save(concert);
     }
 }

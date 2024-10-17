@@ -27,5 +27,5 @@ public class Reservation extends BaseEntity {
     private ReservationStatus reservationStatus;
 
     @Column(name = "reservation_price", nullable = false)
-    private Long reservationPrice;
+    private Integer reservationPrice;
 }

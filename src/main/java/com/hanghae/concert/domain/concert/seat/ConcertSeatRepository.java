@@ -7,4 +7,6 @@ import java.util.*;
 public interface ConcertSeatRepository extends JpaRepository<ConcertSeat, Long> {
 
     List<ConcertSeat> findAllByConcertScheduleId(Long concertScheduleId);
+
+    Optional<ConcertSeat> findByConcertScheduleIdAndSeatNumber(Long concertScheduleId, int seatNumber);
 }

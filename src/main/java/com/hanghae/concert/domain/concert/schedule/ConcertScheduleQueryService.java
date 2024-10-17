@@ -1,6 +1,7 @@
 package com.hanghae.concert.domain.concert.schedule;
 
 import com.hanghae.concert.domain.concert.schedule.dto.*;
+import com.hanghae.concert.domain.concert.schedule.exception.*;
 import lombok.*;
 import org.springframework.stereotype.*;
 import org.springframework.transaction.annotation.*;
@@ -24,5 +25,11 @@ public class ConcertScheduleQueryService {
                 .filter(it -> it.getRemainingSeat() > 0)
                 .map(ConcertScheduleDto::of)
                 .collect(Collectors.toList());
+    }
+
+    public ConcertSchedule getConcertSchedule(Long concertScheduleId) {
+
+        return concertScheduleRepository.findById(concertScheduleId)
+                .orElseThrow(ConcertScheduleNotFoundException::new);
     }
 }

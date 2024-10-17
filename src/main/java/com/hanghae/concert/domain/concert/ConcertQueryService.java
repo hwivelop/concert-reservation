@@ -14,12 +14,10 @@ public class ConcertQueryService {
     private final ConcertRepository concertRepository;
 
 
-    public ConcertDto getConcertById(Long concertId) {
+    public Concert getConcertById(Long concertId) {
 
-        Concert concert = concertRepository.findById(concertId)
+        return concertRepository.findById(concertId)
                 .orElseThrow(ConcertNotFoundException::new);
-
-        return ConcertDto.of(concert);
     }
 
 

@@ -35,7 +35,7 @@ class ConcertQueryServiceTest {
                 );
 
         //when
-        ConcertDto concertDto = concertQueryService.getConcertById(concertId);
+        ConcertDto concertDto = ConcertDto.of(concertQueryService.getConcertById(concertId));
 
         //then
         assertThat(concertDto.concertId()).isEqualTo(concertId);

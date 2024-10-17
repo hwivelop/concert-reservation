@@ -34,18 +34,19 @@ class MemberQueueServiceIntegrationTest {
     @BeforeAll
     void setUp() {
 
-        MemberDto memberDto = memberCommandService.saveMember();
+        MemberDto memberDto = memberCommandService.initMember();
         memberId = memberDto.id();
 
-        ConcertDto concertDto = concertCommandService.saveConcert(
-                new SaveConcertDto(
+        Concert concert = concertCommandService.save(
+                new Concert(
+                        null,
                         "콘서트 제목",
                         50,
                         150000,
                         ConcertStatus.AVAILABLE
                 )
         );
-        concertId = concertDto.concertId();  // 저장된 콘서트의 ID 사용
+        concertId = concert.getId();
     }
 
     @Transactional

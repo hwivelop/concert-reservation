@@ -31,4 +31,9 @@ public class ConcertSeatQueryService {
                 .map(ConcertSeatDto::of)
                 .collect(Collectors.toList());
     }
+
+    public Optional<ConcertSeat> getConcertSeat(Long concertScheduleId, int seatNumber) {
+
+        return concertSeatRepository.findByConcertScheduleIdAndSeatNumber(concertScheduleId, seatNumber);
+    }
 }
