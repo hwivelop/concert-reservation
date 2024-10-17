@@ -13,12 +13,10 @@ public class MemberQueryService {
 
     private final MemberRepository memberRepository;
 
-    public MemberDto getMemberById(Long memberId) {
+    public Member getMemberById(Long memberId) {
 
-        Member member = memberRepository.findById(memberId)
+        return memberRepository.findById(memberId)
                 .orElseThrow(MemberNotFoundException::new);
-
-        return MemberDto.of(member);
     }
 
     public Boolean existsMemberById(Long memberId) {

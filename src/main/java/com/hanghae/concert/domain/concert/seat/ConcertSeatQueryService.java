@@ -3,6 +3,7 @@ package com.hanghae.concert.domain.concert.seat;
 import com.hanghae.concert.domain.concert.schedule.*;
 import com.hanghae.concert.domain.concert.schedule.dto.*;
 import com.hanghae.concert.domain.concert.seat.dto.*;
+import com.hanghae.concert.domain.concert.seat.exception.*;
 import lombok.*;
 import org.springframework.stereotype.*;
 import org.springframework.transaction.annotation.*;
@@ -35,5 +36,11 @@ public class ConcertSeatQueryService {
     public Optional<ConcertSeat> getConcertSeat(Long concertScheduleId, int seatNumber) {
 
         return concertSeatRepository.findByConcertScheduleIdAndSeatNumber(concertScheduleId, seatNumber);
+    }
+
+    public ConcertSeat getConcertSeatById(Long concertSeatId) {
+
+        return concertSeatRepository.findById(concertSeatId)
+                .orElseThrow(ConcertSeatNotFoundException::new);
     }
 }

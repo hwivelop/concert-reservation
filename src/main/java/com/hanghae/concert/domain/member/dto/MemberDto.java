@@ -4,7 +4,7 @@ import com.hanghae.concert.domain.member.*;
 
 public record MemberDto(
         Long id,
-        Long balance
+        Integer balance
 ) {
     public static MemberDto of(Member member) {
 

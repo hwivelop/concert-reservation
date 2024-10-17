@@ -18,18 +18,8 @@ public class PaymentHistoryCommandService {
     private final PaymentHistoryRepository paymentHistoryRepository;
 
 
-    public PaymentHistoryDto savePaymentHistory(SavePaymentHistoryDto dto) {
+    public PaymentHistory savePaymentHistory(PaymentHistory paymentHistory) {
 
-        PaymentHistory paymentHistory = paymentHistoryRepository.save(
-                new PaymentHistory(
-                        null,
-                        dto.memberId(),
-                        dto.reservationId(),
-                        dto.paymentType(),
-                        dto.amount()
-                )
-        );
-
-        return PaymentHistoryDto.of(paymentHistory);
+        return paymentHistoryRepository.save(paymentHistory);
     }
 }

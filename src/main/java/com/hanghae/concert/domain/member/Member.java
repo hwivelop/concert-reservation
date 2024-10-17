@@ -18,10 +18,10 @@ public class Member extends BaseEntity {
     private Long id;
 
     @Column(name = "balance", nullable = false)
-    private Long balance = 0L;
+    private Integer balance = 0;
 
 
-    public void changeBalance(Long balance, PaymentType paymentType) {
+    public void changeBalance(Integer balance, PaymentType paymentType) {
 
         if (paymentType == PaymentType.CHARGE) {
             validateCharge(balance);
@@ -32,14 +32,14 @@ public class Member extends BaseEntity {
         this.balance = balance;
     }
 
-    private void validateCharge(Long balance) {
+    private void validateCharge(Integer balance) {
 
         if (balance <= 0) {
             throw new IllegalArgumentException("마이너스 금액 또는 0원을 충전할 수 없습니다.");
         }
     }
 
-    private void validateUse(Long balance) {
+    private void validateUse(Integer balance) {
 
         if (balance <= 0) {
             throw new IllegalArgumentException("마이너스 금액 또는 0원을 사용할 수 없습니다.");

@@ -33,4 +33,8 @@ public class MemberQueue extends BaseEntity {
 
     @Column(name = "expired_at")
     private LocalDateTime expiredAt;
+
+    public void changeStatus(TokenStatus tokenStatus) {
+        this.tokenStatus = tokenStatus;
+    }
 }

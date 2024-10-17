@@ -19,14 +19,14 @@ public class MemberCommandService {
         Member member = memberRepository.save(
                 new Member(
                         null,
-                        0L
+                        0
                 )
         );
 
         return MemberDto.of(member);
     }
 
-    public void updateBalance(Long memberId, Long balance, PaymentType paymentType) {
+    public void updateBalance(Long memberId, Integer balance, PaymentType paymentType) {
 
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(MemberNotFoundException::new);

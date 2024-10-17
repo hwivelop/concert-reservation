@@ -2,9 +2,7 @@ package com.hanghae.concert.domain.member.queue;
 
 import com.hanghae.concert.application.*;
 import com.hanghae.concert.domain.concert.*;
-import com.hanghae.concert.domain.concert.dto.*;
 import com.hanghae.concert.domain.member.*;
-import com.hanghae.concert.domain.member.dto.*;
 import com.hanghae.concert.domain.member.queue.dto.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.*;
@@ -47,7 +45,7 @@ class MemberQueueServiceTest {
         LocalDateTime expiredAt = LocalDateTime.now().plusMinutes(5);
 
         //given
-        ConcertDto concertDto = new ConcertDto(
+        Concert concert = new Concert(
                 1L,
                 "콘서트 제목",
                 50,
@@ -55,23 +53,20 @@ class MemberQueueServiceTest {
                 ConcertStatus.AVAILABLE
         );
 
-        when(concertQueryService.getConcertById(concertId)).thenReturn(concertDto);
+        when(concertQueryService.getConcertById(concertId)).thenReturn(concert);
 
-        MemberQueueDto MockMemberQueueDto = new MemberQueueDto(
+        MemberQueue MockMemberQueue = new MemberQueue(
+                1L,
                 memberId,
+                concertId,
                 UUID.randomUUID().toString(),
                 tokenStatus,
                 expiredAt
         );
         when(memberQueueQueryService.isActiveTokenOverCapacity(capacity)).thenReturn(Boolean.FALSE);
-        when(memberQueueCommandService.saveMemberQueue(
-                eq(memberId),
-                eq(concertDto.concertId()),
-                eq(tokenStatus),
-                any(LocalDateTime.class) //fixme 서비스 내부에서 비교해야 돼서 파라미터로 못받는데, test 하면 밀리초까지 비교해서 fail 됨, 일단 any 로 통과시킴
-        )).thenReturn(MockMemberQueueDto);
+        when(memberQueueCommandService.save(MockMemberQueue)).thenReturn(MockMemberQueue);
 
-        when(memberQueryService.getMemberById(memberId)).thenReturn(new MemberDto(1L, 0L));
+        when(memberQueryService.getMemberById(memberId)).thenReturn(new Member(1L, 0));
 
         //when
         MemberQueueDto memberQueueDto = memberQueueService.createToken(memberId, concertId);
@@ -91,7 +86,7 @@ class MemberQueueServiceTest {
         LocalDateTime expiredAt = null;
 
         //given
-        ConcertDto concertDto = new ConcertDto(
+        Concert concert = new Concert(
                 1L,
                 "콘서트 제목",
                 50,
@@ -99,25 +94,22 @@ class MemberQueueServiceTest {
                 ConcertStatus.AVAILABLE
         );
 
-        when(concertQueryService.getConcertById(concertId)).thenReturn(concertDto);
-        when(concertQueryService.getConcertById(concertId)).thenReturn(concertDto);
+        when(concertQueryService.getConcertById(concertId)).thenReturn(concert);
+        when(concertQueryService.getConcertById(concertId)).thenReturn(concert);
 
-        MemberQueueDto MockMemberQueueDto = new MemberQueueDto(
+        MemberQueue MockMemberQueue = new MemberQueue(
+                1L,
                 memberId,
+                concertId,
                 UUID.randomUUID().toString(),
                 tokenStatus,
                 expiredAt
         );
 
         when(memberQueueQueryService.isActiveTokenOverCapacity(capacity)).thenReturn(Boolean.TRUE);
-        when(memberQueueCommandService.saveMemberQueue(
-                memberId,
-                concertDto.concertId(),
-                tokenStatus,
-                expiredAt
-        )).thenReturn(MockMemberQueueDto);
+        when(memberQueueCommandService.save(MockMemberQueue)).thenReturn(MockMemberQueue);
 
-        when(memberQueryService.getMemberById(memberId)).thenReturn(new MemberDto(1L, 0L));
+        when(memberQueryService.getMemberById(memberId)).thenReturn(new Member(1L, 0));
 
         //when
         MemberQueueDto memberQueueDto = memberQueueService.createToken(memberId, concertId);

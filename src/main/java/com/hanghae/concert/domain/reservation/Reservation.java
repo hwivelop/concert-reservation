@@ -28,4 +28,12 @@ public class Reservation extends BaseEntity {
 
     @Column(name = "reservation_price", nullable = false)
     private Integer reservationPrice;
+
+    public boolean isExpired() {
+        return reservationStatus == ReservationStatus.EXPIRED;
+    }
+
+    public void changeStatus(ReservationStatus reservationStatus) {
+        this.reservationStatus = reservationStatus;
+    }
 }

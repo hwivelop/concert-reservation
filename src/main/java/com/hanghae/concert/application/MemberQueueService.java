@@ -11,6 +11,7 @@ import lombok.extern.slf4j.*;
 import org.springframework.stereotype.*;
 
 import java.time.*;
+import java.util.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -45,11 +46,16 @@ public class MemberQueueService {
                     // 토큰 상태에 따른 만료 일시
                     LocalDateTime expiredAt = tokenStatus == TokenStatus.ACTIVE ? LocalDateTime.now().plusMinutes(5) : null;
 
-                    return memberQueueCommandService.saveMemberQueue(
-                            memberId,
-                            concertDto.concertId(),
-                            tokenStatus,
-                            expiredAt
+                    return MemberQueueDto.of(memberQueueCommandService.save(
+                                    new MemberQueue(
+                                            null,
+                                            memberId,
+                                            concertDto.concertId(),
+                                            UUID.randomUUID().toString(),
+                                            tokenStatus,
+                                            expiredAt
+                                    )
+                            )
                     );
                 });
     }
