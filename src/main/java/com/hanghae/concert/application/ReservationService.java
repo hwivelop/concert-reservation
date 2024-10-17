@@ -54,7 +54,7 @@ public class ReservationService {
 
     public ReservationDto tempReservation(Long memberId, Long concertId, Long concertScheduleId, int seatNumber) {
 
-//        validateMemberAndConcert(memberId, concertId);
+        validateMemberAndConcert(memberId, concertId);
 
         ConcertSchedule concertSchedule = concertScheduleQueryService.getConcertSchedule(concertScheduleId);
 
@@ -87,12 +87,12 @@ public class ReservationService {
     private void validateMemberAndConcert(Long memberId, Long concertId) {
 
         // 유저 검증
-        if (memberQueryService.existsMemberById(memberId)) {
+        if (!memberQueryService.existsMemberById(memberId)) {
             throw new MemberNotFoundException();
         }
 
         // 토큰 검증
-        if (memberQueueQueryService.isAvailableToken(memberId, concertId)) {
+        if (!memberQueueQueryService.isAvailableToken(memberId, concertId)) {
             throw new ActiveTokenNotFoundException();
         }
 
