@@ -3,6 +3,7 @@ package com.hanghae.concert.domain.member.queue;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.*;
 
+import java.time.*;
 import java.util.*;
 
 public interface MemberQueueRepository extends JpaRepository<MemberQueue, Long> {
@@ -25,4 +26,22 @@ public interface MemberQueueRepository extends JpaRepository<MemberQueue, Long> 
             ")"
     )
     Long findRankByToken(@Param("token") String token);
+
+    void deleteByTokenStatusAndExpiredAtBefore(TokenStatus tokenStatus, LocalDateTime expiredAt);
+
+    @Query("SELECT DISTINCT mq.concertId FROM MemberQueue mq WHERE mq.tokenStatus = :tokenStatus ")
+    List<Long> findAllConcertIds(@Param("tokenStatus") TokenStatus tokenStatus);
+
+    @Query(nativeQuery = true, value = "" +
+            "SELECT * FROM member_queue mq\n" +
+            "WHERE mq.status = :tokenStatus\n" +
+            "AND mq.concert_id = :concertId\n" +
+            "ORDER BY mq.created_at ASC\n" +
+            "LIMIT :room" +
+            "")
+    List<MemberQueue> findChangeExpiredToActive(
+            @Param("concertId") Long concertId,
+            @Param("tokenStatus") TokenStatus tokenStatus,
+            @Param("room") Integer room
+    );
 }

@@ -14,8 +14,14 @@ public class MemberQueueTask {
     private final MemberQueueBatchService memberQueueBatchService;
 
     @Scheduled(cron = "0 * * * * *")
-    public void changeTokenStatusActiveToExpired() {
+    public void deleteExpiredToken() {
 
-//        memberQueueBatchService.();
+        memberQueueBatchService.deleteExpiredToken();
+    }
+
+    @Scheduled(cron = "0 */5 * * * *")
+    public void changeTokenStatusWaitToActive() {
+
+        memberQueueBatchService.changeTokenStatusWaitToActive();
     }
 }

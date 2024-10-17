@@ -14,9 +14,14 @@ public class MemberQueueQueryService {
     private final MemberQueueRepository memberQueueRepository;
 
 
+    public Integer getActiveTokenCount(Long concertId) {
+
+       return memberQueueRepository.countByConcertIdAndTokenStatus(concertId, TokenStatus.ACTIVE);
+    }
+
     public boolean isActiveTokenOverCapacity(Long concertId, int capacity) {
 
-        long activeTokenCount = memberQueueRepository.countByConcertIdAndTokenStatus(concertId, TokenStatus.ACTIVE);
+        long activeTokenCount = this.getActiveTokenCount(concertId);
 
         return activeTokenCount >= capacity;
     }
@@ -39,5 +44,15 @@ public class MemberQueueQueryService {
     public Long getRankByToken(String token) {
 
         return memberQueueRepository.findRankByToken(token);
+    }
+
+    public List<Long> getConcertIds(TokenStatus tokenStatus) {
+
+        return memberQueueRepository.findAllConcertIds(tokenStatus);
+    }
+
+    public List<MemberQueue> getTokenStatusChangeTarget(Long concertId, TokenStatus status, Integer room) {
+
+        return memberQueueRepository.findChangeExpiredToActive(concertId, status, room);
     }
 }
