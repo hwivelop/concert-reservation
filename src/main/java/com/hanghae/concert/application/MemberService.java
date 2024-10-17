@@ -18,7 +18,7 @@ public class MemberService {
     public void updateMemberBalance(Long memberId, Integer balance, PaymentType paymentType) {
 
         // 유저 검증
-        if (memberQueryService.existsMemberById(memberId)) {
+        if (!memberQueryService.existsMemberById(memberId)) {
             throw new MemberNotFoundException();
         }
 
