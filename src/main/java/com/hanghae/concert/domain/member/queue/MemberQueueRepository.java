@@ -1,5 +1,6 @@
 package com.hanghae.concert.domain.member.queue;
 
+import org.springframework.data.domain.*;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.*;
 
@@ -14,13 +15,13 @@ public interface MemberQueueRepository extends JpaRepository<MemberQueue, Long> 
 
     boolean existsByMemberIdAndConcertIdAndTokenStatus(Long memberId, Long concertId, TokenStatus tokenStatus);
 
-    Optional<TokenStatus> findTokenStatusByToken(String token);
+    Optional<MemberQueue> findTokenStatusByToken(String token);
 
     @Query("" +
             "SELECT COUNT(mq) " +
             "FROM MemberQueue mq " +
-            "WHERE mq.createdAt < ( " +
-            "  SELECT mq2.createdAt " +
+            "WHERE mq.id <= ( " +
+            "  SELECT mq2.id " +
             "  FROM MemberQueue mq2 " +
             "  WHERE mq2.token = :token " +
             ")"

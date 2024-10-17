@@ -37,7 +37,7 @@ public class MemberQueueQueryService {
         return memberQueueRepository.existsByMemberIdAndConcertIdAndTokenStatus(memberId, concertId, TokenStatus.ACTIVE);
     }
 
-    public Optional<TokenStatus> getTokenStatus(String token) {
+    public Optional<MemberQueue> getTokenStatus(String token) {
 
         return memberQueueRepository.findTokenStatusByToken(token);
     }

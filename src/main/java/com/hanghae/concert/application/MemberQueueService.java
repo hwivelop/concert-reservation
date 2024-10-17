@@ -62,10 +62,10 @@ public class MemberQueueService {
 
     public Long getMyTurn(String token) {
 
-        TokenStatus tokenStatus = memberQueueQueryService.getTokenStatus(token)
+        MemberQueue memberQueue = memberQueueQueryService.getTokenStatus(token)
                 .orElse(null);
 
-        if (tokenStatus != TokenStatus.WAIT) {
+        if (memberQueue.getTokenStatus() != TokenStatus.WAIT) {
             return null;
         }
 
