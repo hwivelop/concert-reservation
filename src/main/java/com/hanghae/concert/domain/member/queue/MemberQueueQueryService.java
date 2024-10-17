@@ -14,9 +14,11 @@ public class MemberQueueQueryService {
     private final MemberQueueRepository memberQueueRepository;
 
 
-    public Boolean isActiveTokenOverCapacity(Integer capacity) {
+    public boolean isActiveTokenOverCapacity(Long concertId, int capacity) {
 
-        return memberQueueRepository.isActiveTokenGoeCapacity(capacity, TokenStatus.ACTIVE);
+        long activeTokenCount = memberQueueRepository.countByConcertIdAndTokenStatus(concertId, TokenStatus.ACTIVE);
+
+        return activeTokenCount >= capacity;
     }
 
     public Optional<MemberQueue> getMemberQueue(Long memberId, Long concertId) {

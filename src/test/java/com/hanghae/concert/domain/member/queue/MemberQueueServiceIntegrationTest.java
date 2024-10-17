@@ -65,20 +65,20 @@ class MemberQueueServiceIntegrationTest {
         assertThat(memberQueueDto.tokenStatus()).isEqualTo(TokenStatus.ACTIVE);
     }
 
-    @Transactional
-    @DisplayName("대기열에 정원 초과의 Active 토큰이 존재한다면 Wait 토큰이 발급된다.")
     @Test
+    @DisplayName("대기열에 정원 초과의 Active 토큰이 존재한다면 Wait 토큰이 발급된다.")
     void getWaitToken() {
 
         // given
-        Long memberId = 1L;
-
-        for (long no = 1L; no <= 50L; no++) {
+        for (long memberId = 1L; memberId <= 50L; memberId++) {
+            memberCommandService.initMember(new Member(memberId, 0));
             memberQueueService.createToken(memberId, concertId);
         }
+        Long waitMember = 51L;
+        memberCommandService.initMember(new Member(waitMember, 0));
 
         // when
-        MemberQueueDto memberQueueDto = memberQueueService.createToken(memberId, concertId);
+        MemberQueueDto memberQueueDto = memberQueueService.createToken(waitMember, concertId);
 
         // then
         assertThat(memberQueueDto.tokenStatus()).isEqualTo(TokenStatus.WAIT);

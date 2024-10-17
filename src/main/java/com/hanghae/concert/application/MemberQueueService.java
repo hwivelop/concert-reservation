@@ -26,7 +26,7 @@ public class MemberQueueService {
     public MemberQueueDto createToken(Long memberId, Long concertId) {
 
         // 유저 검증
-        if (memberQueryService.existsMemberById(memberId)) {
+        if (!memberQueryService.existsMemberById(memberId)) {
             throw new MemberNotFoundException();
         }
 
@@ -40,7 +40,7 @@ public class MemberQueueService {
                 .orElseGet(() -> {
 
                     // 대기자 수 확인하여 토큰 발급
-                    TokenStatus tokenStatus = memberQueueQueryService.isActiveTokenOverCapacity(concertDto.capacity())
+                    TokenStatus tokenStatus = memberQueueQueryService.isActiveTokenOverCapacity(concertId, concertDto.capacity())
                             ? TokenStatus.WAIT : TokenStatus.ACTIVE;
 
                     // 토큰 상태에 따른 만료 일시

@@ -24,12 +24,14 @@ class MemberQueueQueryServiceTest {
     void loeCapacityThenTrue() {
 
         //given
+        Long concertId = 1L;
         Integer capacity = 50;
+        Integer cnt = 51;
 
-        when(memberQueueRepository.isActiveTokenGoeCapacity(capacity, TokenStatus.ACTIVE)).thenReturn(true);
+        when(memberQueueRepository.countByConcertIdAndTokenStatus(concertId, TokenStatus.ACTIVE)).thenReturn(cnt);
 
         //when
-        Boolean overCapacity = memberQueueQueryService.isActiveTokenOverCapacity(capacity);
+        Boolean overCapacity = memberQueueQueryService.isActiveTokenOverCapacity(concertId, capacity);
 
         //then
         assertThat(overCapacity).isTrue();
@@ -40,12 +42,14 @@ class MemberQueueQueryServiceTest {
     void loeCapacityThenFalse() {
 
         //given
+        Long concertId = 1L;
         Integer capacity = 50;
+        Integer cnt = 49;
 
-        when(memberQueueRepository.isActiveTokenGoeCapacity(capacity, TokenStatus.ACTIVE)).thenReturn(false);
+        when(memberQueueRepository.countByConcertIdAndTokenStatus(concertId, TokenStatus.ACTIVE)).thenReturn(cnt);
 
         //when
-        Boolean overCapacity = memberQueueQueryService.isActiveTokenOverCapacity(capacity);
+        Boolean overCapacity = memberQueueQueryService.isActiveTokenOverCapacity(concertId, capacity);
 
         //then
         assertThat(overCapacity).isFalse();
