@@ -1,6 +1,8 @@
 package com.hanghae.concert.domain.member;
 
 import com.hanghae.concert.domain.member.dto.*;
+import com.hanghae.concert.domain.member.exception.*;
+import com.hanghae.concert.domain.payment.*;
 import lombok.*;
 import org.springframework.stereotype.*;
 import org.springframework.transaction.annotation.*;
@@ -22,5 +24,15 @@ public class MemberCommandService {
         );
 
         return MemberDto.of(member);
+    }
+
+    public void updateBalance(Long memberId, Long balance, PaymentType paymentType) {
+
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(MemberNotFoundException::new);
+
+        member.changeBalance(balance, paymentType);
+
+        memberRepository.save(member);
     }
 }
