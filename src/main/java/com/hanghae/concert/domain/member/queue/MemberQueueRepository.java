@@ -32,16 +32,8 @@ public interface MemberQueueRepository extends JpaRepository<MemberQueue, Long> 
     @Query("SELECT DISTINCT mq.concertId FROM MemberQueue mq WHERE mq.tokenStatus = :tokenStatus ")
     List<Long> findAllConcertIds(@Param("tokenStatus") TokenStatus tokenStatus);
 
-    @Query(nativeQuery = true, value = "" +
-            "SELECT * FROM member_queue mq\n" +
-            "WHERE mq.status = :tokenStatus\n" +
-            "AND mq.concert_id = :concertId\n" +
-            "ORDER BY mq.created_at ASC\n" +
-            "LIMIT :room" +
-            "")
-    List<MemberQueue> findChangeExpiredToActive(
-            @Param("concertId") Long concertId,
-            @Param("tokenStatus") TokenStatus tokenStatus,
-            @Param("room") Integer room
-    );
+    @Query("SELECT mq FROM MemberQueue mq " + "WHERE mq.tokenStatus = :tokenStatus " + "AND mq.concertId = :concertId " + "ORDER BY mq.createdAt ASC")
+    List<MemberQueue> findChangeExpiredToActive(@Param("concertId") Long concertId, @Param("tokenStatus") TokenStatus tokenStatus, Pageable pageable);
+
+    List<MemberQueue> findByConcertIdAndTokenStatus(Long concertId, TokenStatus tokenStatus);
 }

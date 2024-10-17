@@ -1,6 +1,7 @@
 package com.hanghae.concert.domain.member.queue;
 
 import lombok.*;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.*;
 import org.springframework.transaction.annotation.*;
 
@@ -51,7 +52,7 @@ public class MemberQueueQueryService {
         return memberQueueRepository.findAllConcertIds(tokenStatus);
     }
 
-    public List<MemberQueue> getTokenStatusChangeTarget(Long concertId, TokenStatus status, Integer room) {
+    public List<MemberQueue> getTokenStatusChangeTarget(Long concertId, TokenStatus status, Pageable room) {
 
         return memberQueueRepository.findChangeExpiredToActive(concertId, status, room);
     }
