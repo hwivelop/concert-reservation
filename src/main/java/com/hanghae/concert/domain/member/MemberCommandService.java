@@ -12,7 +12,7 @@ public class MemberCommandService {
 
     private final MemberRepository memberRepository;
 
-    public MemberDto saveMember() {
+    public MemberDto initMember() {
 
         Member member = memberRepository.save(
                 new Member(
