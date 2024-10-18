@@ -1,0 +1,350 @@
+openapi: 3.0.1
+info:
+  title: 콘서트 예약
+  description: 콘서트 예약
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+    description: Generated server url
+paths:
+  "/queue/{memberId}":
+    post:
+      tags:
+        - member-queue-controller
+      summary: 대기열 생성
+      description: 회원의 대기열을 생성합니다.
+      operationId: createMemberQueue
+      parameters:
+        - name: memberId
+          in: path
+          description: 대기열을 생성할 회원의 ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/MemberQueueCreateResponse"
+  "/payment-history":
+    post:
+      tags:
+        - payment-history-controller
+      summary: 유저의 잔액 사용 히스토리 저장
+      description: 회원의 잔액 사용 또는 충전 내역을 저장합니다.
+      operationId: createPaymentHistory
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/PaymentHistoryCreateRequest"
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/PaymentHistoryResponse"
+  "/members/charge":
+    post:
+      tags:
+        - member-controller
+      summary: 특정 유저 충전
+      description: 특정 회원의 잔액을 충전합니다.
+      operationId: chargeBalance
+      parameters:
+        - name: Authorization
+          in: header
+          description: JWT 인증 토큰
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/MemberChargeRequest"
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/MemberResponse"
+  "/concerts/{concertScheduleId}/seat/{concertSeatId}":
+    post:
+      tags:
+        - concert-controller
+      summary: 좌석 예약
+      description: 좌석을 예약합니다.
+      operationId: reserveConcert
+      parameters:
+        - name: Authorization
+          in: header
+          description: JWT 인증 토큰
+          required: true
+          schema:
+            type: string
+        - name: concertScheduleId
+          in: path
+          description: 콘서트 스케쥴 ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: concertSeatId
+          in: path
+          description: 콘서트 좌석 ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+  "/concerts/pay/{reservationId}":
+    post:
+      tags:
+        - concert-controller
+      summary: 콘서트 좌석 결제
+      description: 예약한 콘서트 좌석에 대한 결제를 진행합니다.
+      operationId: payConcert
+      parameters:
+        - name: Authorization
+          in: header
+          description: JWT 인증 토큰
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/ReservationSeatRequest"
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/ReservationPayResponse"
+  "/queue/my-turn":
+    get:
+      tags:
+        - member-queue-controller
+      summary: 나의 대기 순번 조회
+      description: 나의 대기 순번을 조회합니다.
+      operationId: getMyTurn
+      parameters:
+        - name: Authorization
+          in: header
+          description: JWT 인증 토큰
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/MemberQueueMyTurnResponse"
+  "/members/member":
+    get:
+      tags:
+        - member-controller
+      summary: 특정 유저 조회
+      description: 특정 회원의 잔액 정보를 조회합니다.
+      operationId: getMember
+      parameters:
+        - name: Authorization
+          in: header
+          description: JWT 인증 토큰
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/MemberResponse"
+  "/concerts/{concertId}/schedules":
+    get:
+      tags:
+        - concert-controller
+      summary: 예약 가능 날짜 조회
+      description: 특정 콘서트의 예약 가능한 날짜를 조회합니다.
+      operationId: getConcertSchedules
+      parameters:
+        - name: Authorization
+          in: header
+          description: JWT 인증 토큰
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/ConcertAvailableDateResponse"
+  "/concerts/schedule/{concertScheduleId}/seats":
+    get:
+      tags:
+        - concert-controller
+      summary: 예약 가능 좌석 조회
+      description: 예약 가능한 좌석을 조회합니다.
+      operationId: getConcertSeats
+      parameters:
+        - name: Authorization
+          in: header
+          description: JWT 인증 토큰
+          required: true
+          schema:
+            type: string
+        - name: concertScheduleId
+          in: path
+          description: 콘서트 스케쥴 ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/ConcertAvailableSeatResponse"
+components:
+  schemas:
+    MemberQueueCreateResponse:
+      type: object
+      properties:
+        memberId:
+          type: integer
+          format: int64
+        token:
+          type: string
+        expiredAt:
+          type: string
+          format: date-time
+    PaymentHistoryCreateRequest:
+      type: object
+      properties:
+        memberId:
+          type: integer
+          format: int64
+        amount:
+          type: integer
+          format: int64
+      description: 충전 또는 사용 금액
+    PaymentHistoryResponse:
+      type: object
+      properties:
+        memberId:
+          type: integer
+          format: int64
+        paymentType:
+          type: string
+          enum:
+            - CHARGE
+            - USE
+        amount:
+          type: integer
+          format: int64
+    MemberChargeRequest:
+      type: object
+      properties:
+        memberId:
+          type: integer
+          format: int64
+        amount:
+          type: integer
+          format: int64
+      description: 충전할 금액 정보
+    MemberResponse:
+      type: object
+      properties:
+        memberId:
+          type: integer
+          format: int64
+        balance:
+          type: integer
+          format: int64
+    ReservationSeatRequest:
+      type: object
+      properties:
+        concertId:
+          type: integer
+          format: int64
+        concertScheduleId:
+          type: integer
+          format: int64
+        reservationId:
+          type: integer
+          format: int64
+        seatNumber:
+          type: integer
+          format: int32
+      description: 결제에 필요한 요청 데이터
+    ReservationPayResponse:
+      type: object
+      properties:
+        concertId:
+          type: integer
+          format: int64
+        concertScheduleId:
+          type: integer
+          format: int64
+        seatNumber:
+          type: integer
+          format: int32
+        price:
+          type: integer
+          format: int64
+    MemberQueueMyTurnResponse:
+      type: object
+      properties:
+        memberId:
+          type: integer
+          format: int64
+        myTurn:
+          type: integer
+          format: int32
+    ConcertAvailableDateResponse:
+      type: object
+      properties:
+        concertId:
+          type: integer
+          format: int64
+        startAt:
+          type: string
+          format: date-time
+    ConcertAvailableSeatResponse:
+      type: object
+      properties:
+        concertId:
+          type: integer
+          format: int64
+        concertScheduleId:
+          type: integer
+          format: int64
+        seatNumber:
+          type: integer
+          format: int32
