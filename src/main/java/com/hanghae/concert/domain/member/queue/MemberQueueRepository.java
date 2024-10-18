@@ -37,4 +37,6 @@ public interface MemberQueueRepository extends JpaRepository<MemberQueue, Long> 
     List<MemberQueue> findChangeExpiredToActive(@Param("concertId") Long concertId, @Param("tokenStatus") TokenStatus tokenStatus, Pageable pageable);
 
     List<MemberQueue> findByConcertIdAndTokenStatus(Long concertId, TokenStatus tokenStatus);
+
+    Optional<MemberQueue> findByMemberIdAndConcertId(Long memberId, Long concertId);
 }

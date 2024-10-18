@@ -21,15 +21,15 @@ public class Member extends BaseEntity {
     private Integer balance = 0;
 
 
-    public void changeBalance(Integer balance, PaymentType paymentType) {
+    public void changeBalance(Integer changeBalance, PaymentType paymentType) {
 
         if (paymentType == PaymentType.CHARGE) {
-            validateCharge(balance);
+            validateCharge(changeBalance);
         } else if (paymentType == PaymentType.USE) {
-            validateUse(balance);
+            validateUse(changeBalance);
         }
 
-        this.balance = balance;
+        this.balance -= changeBalance;
     }
 
     private void validateCharge(Integer balance) {
