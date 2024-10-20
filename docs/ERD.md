@@ -10,6 +10,7 @@ erDiagram
     MEMBER_QUEUE {
         bigint id PK
         bigint member_id FK
+        bigint concert_id FK
         varchar(255) token "대기열 토큰"
         varchar(10) status "대기열 상태(WAIT, ACTIVE, EXPIRED)"
         LocalDateTime expired_at "대기열 만료 시간"

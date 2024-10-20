@@ -22,6 +22,6 @@ public class ConcertSeat extends BaseEntity {
     @Column(name = "seat_number", nullable = false)
     private Integer seatNumber;
 
-    @Column(name = "is_availabe", nullable = false)
-    private Boolean isAvailable;
+    @Column(name = "is_reserved", nullable = false)
+    private Boolean isReserved;
 }
