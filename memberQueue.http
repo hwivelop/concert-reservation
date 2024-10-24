@@ -1,0 +1,17 @@
+### 대기열 생성
+POST http://localhost:8080/queue
+Authorization: asdfasdf
+Content-Type: application/json
+
+{
+  "memberId": 1,
+  "concertId": 1
+}
+
+
+### 나의 대기 순번 조회 API
+// WAIT 상태가 아닐 경우, null 응답
+// WAIT 상태일 때는 나를 포함한 대기자 수 응답
+GET http://localhost:8080/queue/my-turn
+Authorization: asdfasdf
+

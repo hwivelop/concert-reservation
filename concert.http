@@ -1,0 +1,56 @@
+### 예약 가능 날짜 조회
+### Create a new concert
+POST http://localhost:8080/concert
+Content-Type: application/json
+Authorization: asdfasdf
+
+{
+  "title": "heo jae concert",
+  "capacity": 50,
+  "seatPrice": 500000,
+  "concertStatus": "AVAILABLE",
+  "startAt": "2024-11-01T19:00:00"
+}
+
+
+
+### 예약 가능 날짜 조회
+@concertId = 1
+@memberId = 1
+GET http://localhost:8080/concert/{{concertId}}/schedules?memberId={{memberId}}
+Authorization: asdfasdf
+
+
+
+### 예약이 완료된 조회
+GET http://localhost:8080/concert/1/schedule/2/seats?memberId=1
+Authorization: asdfasdf
+
+
+
+### 좌석 예약
+POST http://localhost:8080/concert/reservation
+Content-Type: application/json
+Authorization: asdfasdf
+
+{
+  "memberId": 1,
+  "concertId": 1,
+  "concertScheduleId": 1,
+  "seatNumber": 1
+}
+
+
+### 결제
+POST http://localhost:8080/concert/pay
+Content-Type: application/json
+Authorization: asdfasdf
+
+{
+  "memberId": 1,
+  "concertId": 1,
+  "reservationId": 1
+}
+
+
+
