@@ -1,0 +1,27 @@
+### 유저 생성
+POST http://localhost:8080/member
+
+
+
+### 특정 유저 조회
+@memberId1 = 1
+
+GET http://localhost:8080/member/balance?memberId={{memberId1}}
+Authorization: asdfasdf
+
+
+
+### 특정 유저의 잔액 사용/충전
+@paymentType = CHARGE
+#@paymentType = USE
+
+POST http://localhost:8080/member/balance
+Authorization: asdfasdf
+Content-Type: application/json
+
+{
+  "memberId": 1,
+  "amount": 1000,
+  "paymentType": "{{paymentType}}"
+}
+
