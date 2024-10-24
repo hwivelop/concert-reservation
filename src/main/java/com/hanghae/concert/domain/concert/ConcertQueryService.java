@@ -1,6 +1,5 @@
 package com.hanghae.concert.domain.concert;
 
-import com.hanghae.concert.domain.concert.dto.*;
 import com.hanghae.concert.domain.concert.exception.*;
 import lombok.*;
 import org.springframework.stereotype.*;

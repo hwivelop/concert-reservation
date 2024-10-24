@@ -5,6 +5,8 @@ import lombok.*;
 import org.springframework.stereotype.*;
 import org.springframework.transaction.annotation.*;
 
+import java.util.*;
+
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Service
@@ -16,5 +18,10 @@ public class ReservationQueryService {
 
         return reservationRepository.findById(reservationId)
                 .orElseThrow(PaymentHistoryNotFoundException::new);
+    }
+
+    public Optional<Reservation> getReservationBySeatIdAndStatus(Long concertSeatId, ReservationStatus reservationStatus) {
+
+        return reservationRepository.findByConcertSeatIdAndReservationStatus(concertSeatId, reservationStatus);
     }
 }
