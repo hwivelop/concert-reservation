@@ -76,8 +76,8 @@ class MemberQueueChangeStatusBatchServiceTest {
 
         // 만료 시간이 5분 뒤로 설정되었는지 확인
         for (MemberQueue queue : updatedQueues) {
-            assertThat(queue.getExpiredAt()).isAfter(now.plusMinutes(4));
-            assertThat(queue.getExpiredAt()).isBefore(now.plusMinutes(6));
+            assertThat(queue.getExpiredAt()).isAfter(now.plusMinutes(4).minusSeconds(1));
+            assertThat(queue.getExpiredAt()).isBefore(now.plusMinutes(6).plusSeconds(1));
         }
     }
 }

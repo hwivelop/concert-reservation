@@ -1,5 +1,6 @@
 package com.hanghae.concert.application;
 
+import com.hanghae.concert.api.concert.dto.request.*;
 import com.hanghae.concert.domain.concert.*;
 import com.hanghae.concert.domain.concert.exception.*;
 import com.hanghae.concert.domain.concert.schedule.*;
@@ -52,10 +53,13 @@ public class ReservationService {
 
     }
 
-    public ReservationDto tempReservation(Long memberId, Long concertId, Long concertScheduleId, int seatNumber) {
+    public ReservationDto tempReservation(ReservationSeatRequest request) {
 
-        validateMemberAndConcert(memberId, concertId);
+        Long memberId = request.memberId();
+        Long concertScheduleId = request.concertScheduleId();
+        Integer seatNumber = request.seatNumber();
 
+        validateMemberAndConcert(memberId, request.concertId());
         ConcertSchedule concertSchedule = concertScheduleQueryService.getConcertSchedule(concertScheduleId);
 
         // seat 생성

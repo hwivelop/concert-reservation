@@ -15,7 +15,7 @@ public interface MemberQueueRepository extends JpaRepository<MemberQueue, Long> 
 
     boolean existsByMemberIdAndConcertIdAndTokenStatus(Long memberId, Long concertId, TokenStatus tokenStatus);
 
-    Optional<MemberQueue> findTokenStatusByToken(String token);
+    Optional<MemberQueue> findByToken(String token);
 
     long countByTokenStatusAndIdLessThanEqual(TokenStatus tokenStatus, Long memberQueueId);
 

@@ -1,5 +1,6 @@
 package com.hanghae.concert.application;
 
+import com.hanghae.concert.application.dto.*;
 import com.hanghae.concert.domain.concert.*;
 import com.hanghae.concert.domain.member.*;
 import com.hanghae.concert.domain.member.queue.*;
@@ -75,7 +76,7 @@ class PaymentServiceTest {
         // given
 
         // when
-        paymentService.pay(memberId, concertId, reservationId);
+        paymentService.pay(new PaymentHistoryCreateDto(memberId, concertId, reservationId));
 
         // then
         // 잔액 차감 확인
@@ -116,7 +117,7 @@ class PaymentServiceTest {
 
         // when, then
         ExpiredReservationException exception = assertThrows(ExpiredReservationException.class, () -> {
-            paymentService.pay(memberId, concertId, reservationId);
+            paymentService.pay(new PaymentHistoryCreateDto(memberId, concertId, reservationId));
         });
 
         // then

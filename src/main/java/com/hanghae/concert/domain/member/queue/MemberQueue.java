@@ -41,4 +41,8 @@ public class MemberQueue extends BaseEntity {
     public void changeExpiredAt(LocalDateTime expiredAt) {
         this.expiredAt = expiredAt;
     }
+
+    public boolean isStatusActive() {
+        return this.tokenStatus == TokenStatus.ACTIVE;
+    }
 }

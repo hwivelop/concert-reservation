@@ -1,5 +1,6 @@
 package com.hanghae.concert.application;
 
+import com.hanghae.concert.application.dto.*;
 import com.hanghae.concert.domain.member.*;
 import com.hanghae.concert.domain.payment.*;
 import org.junit.jupiter.api.*;
@@ -47,7 +48,7 @@ class MemberUpdateBalanceServiceTest {
         PaymentType paymentType = PaymentType.CHARGE;
 
         // when
-        memberService.updateMemberBalance(memberId, chargeAmount, paymentType);
+        memberService.updateMemberBalance(new MemberUpdateBalanceDto(memberId, chargeAmount, paymentType));
 
         // then
         Member updatedMember = memberRepository.findById(memberId).orElse(null);
@@ -66,7 +67,7 @@ class MemberUpdateBalanceServiceTest {
         PaymentType paymentType = PaymentType.USE;
 
         // when
-        memberService.updateMemberBalance(memberId, useAmount, paymentType);
+        memberService.updateMemberBalance(new MemberUpdateBalanceDto(memberId, useAmount, paymentType));
 
         // then
         Member updatedMember = memberRepository.findById(memberId).orElse(null);

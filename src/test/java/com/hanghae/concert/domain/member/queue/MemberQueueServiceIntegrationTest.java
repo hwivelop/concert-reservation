@@ -1,9 +1,11 @@
 package com.hanghae.concert.domain.member.queue;
 
 import com.hanghae.concert.application.*;
+import com.hanghae.concert.application.dto.*;
 import com.hanghae.concert.domain.concert.*;
 import com.hanghae.concert.domain.member.*;
 import com.hanghae.concert.domain.member.dto.*;
+import com.hanghae.concert.domain.member.dto.MemberDto;
 import com.hanghae.concert.domain.member.queue.dto.*;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.*;
@@ -59,7 +61,7 @@ class MemberQueueServiceIntegrationTest {
         Long memberId = 1L;
 
         // when
-        MemberQueueDto memberQueueDto = memberQueueService.createToken(memberId, concertId);
+        MemberQueueDto memberQueueDto = memberQueueService.createToken(new MemberQueueCreateDto(memberId, concertId));
 
         // then
         assertThat(memberQueueDto.tokenStatus()).isEqualTo(TokenStatus.ACTIVE);
@@ -72,13 +74,13 @@ class MemberQueueServiceIntegrationTest {
         // given
         for (long memberId = 1L; memberId <= 50L; memberId++) {
             memberCommandService.initMember(new Member(memberId, 0));
-            memberQueueService.createToken(memberId, concertId);
+            memberQueueService.createToken(new MemberQueueCreateDto(memberId, concertId));
         }
         Long waitMember = 51L;
         memberCommandService.initMember(new Member(waitMember, 0));
 
         // when
-        MemberQueueDto memberQueueDto = memberQueueService.createToken(waitMember, concertId);
+        MemberQueueDto memberQueueDto = memberQueueService.createToken(new MemberQueueCreateDto(waitMember, concertId));
 
         // then
         assertThat(memberQueueDto.tokenStatus()).isEqualTo(TokenStatus.WAIT);
