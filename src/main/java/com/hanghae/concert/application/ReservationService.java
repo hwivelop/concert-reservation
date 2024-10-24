@@ -16,6 +16,7 @@ import com.hanghae.concert.domain.reservation.dto.*;
 import lombok.*;
 import lombok.extern.slf4j.*;
 import org.springframework.stereotype.*;
+import org.springframework.transaction.annotation.*;
 
 import java.util.*;
 
@@ -29,11 +30,10 @@ public class ReservationService {
     private final MemberQueryService memberQueryService;
     private final MemberQueueQueryService memberQueueQueryService;
     private final ConcertQueryService concertQueryService;
-    private final ConcertCommandService concertCommandService;
     private final ConcertScheduleQueryService concertScheduleQueryService;
-    private final ConcertScheduleCommandService concertScheduleCommandService;
     private final ConcertSeatQueryService concertSeatQueryService;
     private final ConcertSeatCommandService concertSeatCommandService;
+    private final ReservationQueryService reservationQueryService;
     private final ReservationCommandService reservationCommandService;
 
 
@@ -53,6 +53,7 @@ public class ReservationService {
 
     }
 
+    @Transactional
     public ReservationDto tempReservation(ReservationSeatRequest request) {
 
         Long memberId = request.memberId();
@@ -60,6 +61,7 @@ public class ReservationService {
         Integer seatNumber = request.seatNumber();
 
         validateMemberAndConcert(memberId, request.concertId());
+
         ConcertSchedule concertSchedule = concertScheduleQueryService.getConcertSchedule(concertScheduleId);
 
         // seat 생성
@@ -70,22 +72,23 @@ public class ReservationService {
 
         // 잔여좌석 업데이트
         concertSchedule.changeRemainingSeat(true);
-        concertScheduleCommandService.save(concertSchedule);
 
         Concert concert = concertQueryService.getConcertById(concertSchedule.getConcertId());
 
         // 정원이 다차면 concert 도 sold_out 상태로 변경
         if (concertSchedule.getRemainingSeat() == 0) {
             concert.changeStatus(ConcertStatus.SOLD_OUT);
-            concertCommandService.save(concert);
         }
 
         //reservation 테이블 temp_reservation insert
-        Reservation reservation = reservationCommandService.save(
-                new Reservation(null, memberId, concertSeat.getId(), TEMP_RESERVED, concert.getSeatPrice())
-        );
+        Optional<Reservation> reservation = reservationQueryService.getReservationBySeatIdAndStatus(concertSeat.getId(), TEMP_RESERVED);
 
-        return ReservationDto.of(reservation);
+        return reservation.map(ReservationDto::of).orElseGet(() -> ReservationDto.of(
+                reservationCommandService.save(
+                        new Reservation(null, memberId, concertSeat.getId(), TEMP_RESERVED, concert.getSeatPrice())
+                )
+        ));
+
     }
 
     private void validateMemberAndConcert(Long memberId, Long concertId) {

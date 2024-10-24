@@ -3,6 +3,7 @@ package com.hanghae.concert.application;
 import com.hanghae.concert.application.dto.*;
 import com.hanghae.concert.domain.concert.*;
 import com.hanghae.concert.domain.concert.exception.*;
+import com.hanghae.concert.domain.concert.seat.*;
 import com.hanghae.concert.domain.member.*;
 import com.hanghae.concert.domain.member.exception.*;
 import com.hanghae.concert.domain.member.queue.*;
@@ -23,8 +24,8 @@ public class PaymentService {
     private final MemberQueueCommandService memberQueueCommandService;
     private final ConcertQueryService concertQueryService;
     private final ReservationQueryService reservationQueryService;
-    private final ReservationCommandService reservationCommandService;
     private final PaymentHistoryCommandService paymentHistoryCommandService;
+    private final ConcertSeatQueryService concertSeatQueryService;
 
     public ReservationPayDto pay(PaymentHistoryCreateDto dto) {
 
@@ -61,7 +62,9 @@ public class PaymentService {
 
         // 예약상태 reservation 으로 변경
         reservation.changeStatus(ReservationStatus.RESERVED);
-        reservationCommandService.save(reservation);
+
+        ConcertSeat concertSeat = concertSeatQueryService.getConcertSeatById(reservation.getConcertSeatId());
+        concertSeat.changeReserved(true);
 
         // 대기열 변경
         MemberQueue memberQueue = memberQueueQueryService.getMemberQueue(memberId, concertId)

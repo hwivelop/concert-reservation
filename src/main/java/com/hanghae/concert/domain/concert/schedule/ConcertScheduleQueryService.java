@@ -29,7 +29,7 @@ public class ConcertScheduleQueryService {
 
     public ConcertSchedule getConcertSchedule(Long concertScheduleId) {
 
-        return concertScheduleRepository.findById(concertScheduleId)
+        return concertScheduleRepository.findByIdWithLock(concertScheduleId)
                 .orElseThrow(ConcertScheduleNotFoundException::new);
     }
 }

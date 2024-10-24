@@ -35,7 +35,7 @@ public class ConcertSeatQueryService {
 
     public Optional<ConcertSeat> getConcertSeat(Long concertScheduleId, int seatNumber) {
 
-        return concertSeatRepository.findByConcertScheduleIdAndSeatNumber(concertScheduleId, seatNumber);
+        return concertSeatRepository.findByConcertScheduleIdAndSeatNumberWithLock(concertScheduleId, seatNumber);
     }
 
     public ConcertSeat getConcertSeatById(Long concertSeatId) {

@@ -24,4 +24,8 @@ public class ConcertSeat extends BaseEntity {
 
     @Column(name = "is_reserved", nullable = false)
     private Boolean isReserved;
+
+    public void changeReserved(Boolean isReserved) {
+        this.isReserved = isReserved;
+    }
 }
