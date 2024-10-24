@@ -1,5 +1,6 @@
 package com.hanghae.concert.domain.member;
 
+import com.hanghae.concert.application.dto.*;
 import com.hanghae.concert.domain.payment.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.*;
@@ -36,7 +37,7 @@ class MemberCommandServiceTest {
         when(memberRepository.findById(memberId)).thenReturn(Optional.of(member));
 
         //when
-        memberCommandService.updateBalance(memberId, balance, paymentType);
+        memberCommandService.updateBalance(new MemberUpdateBalanceDto(memberId, balance, paymentType));
 
         // then
         verify(memberRepository).save(member);
@@ -58,7 +59,7 @@ class MemberCommandServiceTest {
         when(memberRepository.findById(memberId)).thenReturn(Optional.of(member));
 
         //when
-        memberCommandService.updateBalance(memberId, balance, paymentType);
+        memberCommandService.updateBalance(new MemberUpdateBalanceDto(memberId, balance, paymentType));
 
         // then
         verify(memberRepository).save(member);

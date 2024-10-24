@@ -1,28 +1,33 @@
 package com.hanghae.concert.api.queue;
 
+import com.hanghae.concert.api.common.response.*;
+import com.hanghae.concert.api.queue.dto.request.*;
 import com.hanghae.concert.api.queue.dto.response.*;
-import io.swagger.v3.oas.annotations.*;
+import com.hanghae.concert.application.*;
+import com.hanghae.concert.domain.member.queue.dto.*;
 import lombok.*;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.*;
-import java.util.*;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/queue")
 public class MemberQueueController {
 
+    private final MemberQueueService memberQueueService;
+
     /**
      * 대기열 생성 API
      */
-    @PostMapping("/{memberId}")
-    public ResponseEntity<MemberQueueCreateResponse> createMemberQueue(
-            @PathVariable Long memberId
+    @PostMapping
+    public BasicResponse<MemberQueueCreateResponse> createMemberQueue(
+            @RequestBody MemberQueueCreateRequest request
     ) {
-        return ResponseEntity.ok(
-                new MemberQueueCreateResponse(1L, UUID.randomUUID().toString(), LocalDateTime.now().plusMinutes(5))
+
+        MemberQueueDto memberQueueDto = memberQueueService.createToken(request.toRequest());
+
+        return BasicResponse.ok(
+                MemberQueueCreateResponse.toResponse(memberQueueDto)
         );
     }
 
@@ -30,9 +35,12 @@ public class MemberQueueController {
      * 나의 대기 순번 조회 API
      */
     @GetMapping("/my-turn")
-    public ResponseEntity<MemberQueueMyTurnResponse> getMyTurn(
-            @RequestHeader String token
+    public BasicResponse<Long> getMyTurn(
+            @RequestHeader(name = "Authorization") String token
     ) {
-        return ResponseEntity.ok(new MemberQueueMyTurnResponse(1L, 1));
+
+        return BasicResponse.ok(
+                memberQueueService.getMyTurn(token)
+        );
     }
 }

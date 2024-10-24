@@ -1,6 +1,7 @@
 package com.hanghae.concert.domain.member.queue;
 
 import com.hanghae.concert.application.*;
+import com.hanghae.concert.application.dto.*;
 import com.hanghae.concert.domain.concert.*;
 import com.hanghae.concert.domain.member.*;
 import com.hanghae.concert.domain.member.queue.dto.*;
@@ -71,7 +72,7 @@ class MemberQueueServiceTest {
         when(memberQueueCommandService.save(any(MemberQueue.class))).thenReturn(mockActiveMemberQueue);
 
         // when
-        MemberQueueDto memberQueueDto = memberQueueService.createToken(memberId, concertId);
+        MemberQueueDto memberQueueDto = memberQueueService.createToken(new MemberQueueCreateDto(memberId, concertId));
 
         // then
         assertThat(memberQueueDto.tokenStatus()).isEqualTo(TokenStatus.ACTIVE);
@@ -88,7 +89,7 @@ class MemberQueueServiceTest {
         when(memberQueueCommandService.save(any(MemberQueue.class))).thenReturn(mockWaitMemberQueue);
 
         // when
-        MemberQueueDto memberQueueDto = memberQueueService.createToken(memberId, concertId);
+        MemberQueueDto memberQueueDto = memberQueueService.createToken(new MemberQueueCreateDto(memberId, concertId));
 
         // then
         assertThat(memberQueueDto.tokenStatus()).isEqualTo(TokenStatus.WAIT);

@@ -1,5 +1,6 @@
 package com.hanghae.concert.domain.member.queue;
 
+import com.hanghae.concert.domain.member.queue.exception.*;
 import lombok.*;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.*;
@@ -37,13 +38,15 @@ public class MemberQueueQueryService {
         return memberQueueRepository.existsByMemberIdAndConcertIdAndTokenStatus(memberId, concertId, TokenStatus.ACTIVE);
     }
 
-    public Optional<MemberQueue> getTokenStatus(String token) {
+    public MemberQueue getByToken(String token) {
 
-        return memberQueueRepository.findTokenStatusByToken(token);
+        return memberQueueRepository.findByToken(token)
+                .orElseThrow(MemberQueueNotFoundException::new);
     }
 
     public Long getRankByToken(Long memberQueueId) {
-
+        long l = memberQueueRepository.countByTokenStatusAndIdLessThanEqual(TokenStatus.WAIT, memberQueueId);
+        System.out.println("순서 " + l);
         return memberQueueRepository.countByTokenStatusAndIdLessThanEqual(TokenStatus.WAIT, memberQueueId);
     }
 

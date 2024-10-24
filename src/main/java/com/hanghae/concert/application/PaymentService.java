@@ -1,5 +1,6 @@
 package com.hanghae.concert.application;
 
+import com.hanghae.concert.application.dto.*;
 import com.hanghae.concert.domain.concert.*;
 import com.hanghae.concert.domain.concert.exception.*;
 import com.hanghae.concert.domain.member.*;
@@ -25,9 +26,13 @@ public class PaymentService {
     private final ReservationCommandService reservationCommandService;
     private final PaymentHistoryCommandService paymentHistoryCommandService;
 
-    public void pay(Long memberId, Long concertId, Long reservationId) {
+    public ReservationPayDto pay(PaymentHistoryCreateDto dto) {
 
         // 검증
+        Long memberId = dto.memberId();
+        Long concertId = dto.concertId();
+        Long reservationId = dto.reservationId();
+
         validateMemberAndConcert(memberId, concertId);
 
         // 예약 조회
@@ -41,7 +46,7 @@ public class PaymentService {
         // 잔액 차감
         Integer reservationPrice = reservation.getReservationPrice();
 
-        memberCommandService.updateBalance(memberId, reservationPrice, PaymentType.USE);
+        memberCommandService.updateBalance(new MemberUpdateBalanceDto(memberId, reservationPrice, PaymentType.USE));
 
         // 결제내역 저장
         paymentHistoryCommandService.savePaymentHistory(
@@ -64,6 +69,10 @@ public class PaymentService {
 
         memberQueue.changeStatus(TokenStatus.DONE);
         memberQueueCommandService.save(memberQueue);
+
+        return new ReservationPayDto(
+                concertId, reservation.getReservationStatus(), memberQueue.getTokenStatus(), reservation.getReservationPrice()
+        );
     }
 
     private void validateMemberAndConcert(Long memberId, Long concertId) {

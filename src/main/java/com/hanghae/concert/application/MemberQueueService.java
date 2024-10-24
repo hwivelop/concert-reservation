@@ -1,5 +1,6 @@
 package com.hanghae.concert.application;
 
+import com.hanghae.concert.application.dto.*;
 import com.hanghae.concert.domain.concert.*;
 import com.hanghae.concert.domain.concert.dto.*;
 import com.hanghae.concert.domain.member.*;
@@ -23,7 +24,10 @@ public class MemberQueueService {
     private final ConcertQueryService concertQueryService;
     private final MemberQueryService memberQueryService;
 
-    public MemberQueueDto createToken(Long memberId, Long concertId) {
+    public MemberQueueDto createToken(MemberQueueCreateDto dto) {
+
+        Long memberId = dto.memberId();
+        Long concertId = dto.concertId();
 
         // 유저 검증
         if (!memberQueryService.existsMemberById(memberId)) {
@@ -62,10 +66,13 @@ public class MemberQueueService {
 
     public Long getMyTurn(String token) {
 
-        MemberQueue memberQueue = memberQueueQueryService.getTokenStatus(token)
-                .orElse(null);
+        MemberQueue memberQueue = memberQueueQueryService.getByToken(token);
 
+        log.info("token = {}, status = {}", memberQueue.getToken(), memberQueue.getTokenStatus());
+
+            log.info("true? false? = {}", memberQueue.getTokenStatus() != TokenStatus.WAIT);
         if (memberQueue.getTokenStatus() != TokenStatus.WAIT) {
+            log.info("null....");
             return null;
         }
 

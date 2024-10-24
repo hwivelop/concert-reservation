@@ -1,39 +1,59 @@
 package com.hanghae.concert.api.member;
 
+import com.hanghae.concert.api.common.response.*;
 import com.hanghae.concert.api.member.dto.request.*;
 import com.hanghae.concert.api.member.dto.response.*;
+import com.hanghae.concert.application.*;
+import com.hanghae.concert.application.dto.*;
 import jakarta.validation.*;
 import lombok.*;
-import org.springframework.http.*;
+import lombok.extern.slf4j.*;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/members")
+@RequestMapping("/member")
 public class MemberController {
 
+    private final MemberService memberService;
+
     /**
-     * 특정 유저 조회(잔액 조회)
+     * 유저 생성
      */
-    @GetMapping("/member")
-    public ResponseEntity<MemberResponse> getMember(
-            @RequestHeader String token
-    ) {
-        return ResponseEntity.ok(
-                new MemberResponse(1L, 50000L)
+    @PostMapping
+    public BasicResponse<MemberResponse> createMember() {
+
+        MemberDto memberDto = memberService.createMember();
+
+        return BasicResponse.ok(
+                MemberResponse.toResponse(memberDto)
         );
     }
 
     /**
-     * 특정 유저 충전
+     * 특정 유저 조회(잔액 조회)
      */
-    @PostMapping("/charge")
-    public ResponseEntity<MemberResponse> chargeBalance(
-            @RequestHeader String token,
-            @RequestBody @Valid MemberChargeRequest request
-    ) {
-        return ResponseEntity.ok(
-                new MemberResponse(1L, 50000L)
+    @GetMapping("/balance")
+    public BasicResponse<MemberResponse> getMember(@RequestParam("memberId") Long memberId) {
+
+        log.info("memberId = {}", memberId);
+
+        MemberDto memberDto = memberService.getMemberById(memberId);
+
+        return BasicResponse.ok(
+                MemberResponse.toResponse(memberDto)
         );
+    }
+
+    /**
+     * 특정 유저의 잔액 사용/충전
+     */
+    @PostMapping("/balance")
+    public BasicResponse<Void> updateBalance(@RequestBody @Valid MemberUpdateBalanceRequest request) {
+
+        memberService.updateMemberBalance(request.toApplication());
+
+        return BasicResponse.ok();
     }
 }

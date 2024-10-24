@@ -1,5 +1,6 @@
 package com.hanghae.concert.application;
 
+import com.hanghae.concert.api.concert.dto.request.*;
 import com.hanghae.concert.domain.concert.*;
 import com.hanghae.concert.domain.concert.schedule.*;
 import com.hanghae.concert.domain.concert.seat.*;
@@ -76,7 +77,7 @@ class ReservationTempReservationServiceTest {
         int seatNumber = 1;
 
         // when
-        ReservationDto reservationDto = reservationService.tempReservation(memberId, concertId, concertScheduleId, seatNumber);
+        ReservationDto reservationDto = reservationService.tempReservation(new ReservationSeatRequest(memberId, concertId, concertScheduleId, seatNumber));
 
         // then
         assertThat(reservationDto).isNotNull();
@@ -100,11 +101,11 @@ class ReservationTempReservationServiceTest {
 
         // given
         for (int i = 1; i <= 10; i++) {
-            reservationService.tempReservation(memberId, concertId, concertScheduleId, i);
+            reservationService.tempReservation(new ReservationSeatRequest(memberId, concertId, concertScheduleId, i));
         }
 
         // when
-        reservationService.tempReservation(memberId, concertId, concertScheduleId, 11);
+        reservationService.tempReservation(new ReservationSeatRequest(memberId, concertId, concertScheduleId, 11));
 
         // then
         Concert updatedConcert = concertQueryService.getConcertById(concertId);
