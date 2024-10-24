@@ -53,6 +53,7 @@ public class ReservationService {
 
     }
 
+    @Transactional
     public ReservationDto tempReservation(ReservationSeatRequest request) {
 
         Long memberId = request.memberId();
@@ -60,6 +61,7 @@ public class ReservationService {
         Integer seatNumber = request.seatNumber();
 
         validateMemberAndConcert(memberId, request.concertId());
+
         ConcertSchedule concertSchedule = concertScheduleQueryService.getConcertSchedule(concertScheduleId);
 
         // seat 생성
